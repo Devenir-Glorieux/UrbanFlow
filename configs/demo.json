@@ -1,0 +1,20 @@
+{
+  "name": "Minsk centre — candidate area, not a calibrated population",
+  "bbox": {"west": 27.5534, "south": 53.8955, "east": 27.5686, "north": 53.9045},
+  "population": {
+    "size": 12,
+    "represented_population": 120,
+    "seed": 42,
+    "source": "Illustrative assumptions only; replace with measured demographic distributions",
+    "archetypes": [
+      {"name": "working adults", "fraction": 0.6, "min_age": 23, "max_age": 64,
+       "role": "worker", "description": "Works locally on weekdays; shops and eats near home."},
+      {"name": "students", "fraction": 0.2, "min_age": 18, "max_age": 22,
+       "role": "student", "description": "Studies on weekdays and visits cafes or parks."},
+      {"name": "other adults", "fraction": 0.2, "min_age": 25, "max_age": 80,
+       "role": "other", "description": "Flexible daytime errands and leisure activities."}
+    ]
+  },
+  "simulation": {"start_date": "2026-09-14", "days": 7, "seed": 42,
+                 "timezone": "Europe/Minsk", "walking_speed_mps": 1.3}
+}

@@ -1,0 +1,4 @@
+FROM urbanflow:dev
+COPY tests ./tests
+RUN uv sync --frozen --group dev
+CMD ["uv", "run", "pytest"]

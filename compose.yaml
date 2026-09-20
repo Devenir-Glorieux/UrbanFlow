@@ -1,0 +1,70 @@
+name: urbanflow
+
+x-app: &app
+  image: urbanflow:dev
+  build: .
+  environment: &environment
+    DATABASE_URL: postgresql+asyncpg://urbanflow@db/urbanflow
+    LLM_PROVIDER: ${LLM_PROVIDER:-openai}
+    LLM_BASE_URL: ${LLM_BASE_URL:-http://host.docker.internal:1234/v1}
+    LLM_API_KEY: ${LLM_API_KEY:-}
+    LLM_MODEL: ${LLM_MODEL:-}
+    OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+    OVERPASS_URL: ${OVERPASS_URL:-https://overpass-api.de/api/interpreter}
+  extra_hosts:
+    - host.docker.internal:host-gateway
+
+services:
+  db:
+    image: postgis/postgis:17-3.5
+    # Official tag currently publishes amd64 only; Docker Desktop emulates on Apple Silicon.
+    platform: linux/amd64
+    environment:
+      POSTGRES_USER: urbanflow
+      POSTGRES_DB: urbanflow
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - 127.0.0.1:${POSTGRES_PORT:-5432}:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U urbanflow -d urbanflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+
+  api:
+    <<: *app
+    ports:
+      - 127.0.0.1:8000:8000
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+
+  ui:
+    <<: *app
+    command: [streamlit, run, src/urbanflow/ui/app.py, --server.address=0.0.0.0, --server.port=8501, --browser.gatherUsageStats=false]
+    environment:
+      URBANFLOW_API_URL: http://api:8000
+    ports:
+      - 127.0.0.1:8501:8501
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  postgres:

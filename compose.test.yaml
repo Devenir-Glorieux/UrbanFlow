@@ -1,0 +1,13 @@
+services:
+  checks:
+    image: urbanflow:checks
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    environment:
+      TEST_DATABASE_URL: postgresql+asyncpg://urbanflow@db/urbanflow_test
+      DATABASE_URL: postgresql+asyncpg://urbanflow@db/urbanflow_test
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles: [test]

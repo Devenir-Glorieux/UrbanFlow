@@ -1,0 +1,104 @@
+{
+  "size": 137,
+  "represented_population": 5723,
+  "seed": 42,
+  "source": "Synthetic demographic baseline for Minsk based on available city and national demographic statistics; not measured specifically for this bbox.",
+  "archetypes": [
+    {
+      "name": "children",
+      "fraction": 0.09,
+      "min_age": 0,
+      "max_age": 13,
+      "role": "other",
+      "description": "Lives with family; activity is concentrated around home, kindergarten or school and nearby recreation."
+    },
+    {
+      "name": "school teenagers",
+      "fraction": 0.07,
+      "min_age": 14,
+      "max_age": 17,
+      "role": "student",
+      "description": "Attends school on weekdays and visits shops, food venues, sports and leisure locations after school."
+    },
+    {
+      "name": "university students",
+      "fraction": 0.06,
+      "min_age": 18,
+      "max_age": 23,
+      "role": "student",
+      "description": "Studies on weekdays and frequently visits public transport hubs, cafes, shops and public spaces."
+    },
+    {
+      "name": "young professionals",
+      "fraction": 0.11,
+      "min_age": 20,
+      "max_age": 29,
+      "role": "worker",
+      "description": "Works or commutes on weekdays and actively uses cafes, retail, fitness and entertainment."
+    },
+    {
+      "name": "working adults 30-39",
+      "fraction": 0.15,
+      "min_age": 30,
+      "max_age": 39,
+      "role": "worker",
+      "description": "Full-time worker with regular weekday commute, shopping and service use."
+    },
+    {
+      "name": "working adults 40-49",
+      "fraction": 0.14,
+      "min_age": 40,
+      "max_age": 49,
+      "role": "worker",
+      "description": "Full-time worker with stable weekday routines and regular use of local services."
+    },
+    {
+      "name": "working adults 50-59",
+      "fraction": 0.12,
+      "min_age": 50,
+      "max_age": 59,
+      "role": "worker",
+      "description": "Works on weekdays with predictable commute and regular shopping and service activity."
+    },
+    {
+      "name": "older working adults",
+      "fraction": 0.06,
+      "min_age": 60,
+      "max_age": 69,
+      "role": "worker",
+      "description": "Economically active older resident combining work trips with local shopping and services."
+    },
+    {
+      "name": "retired active adults",
+      "fraction": 0.08,
+      "min_age": 60,
+      "max_age": 74,
+      "role": "other",
+      "description": "Not employed; active during daytime and frequently visits shops, healthcare, parks and local services."
+    },
+    {
+      "name": "older retirees",
+      "fraction": 0.06,
+      "min_age": 75,
+      "max_age": 90,
+      "role": "other",
+      "description": "Mostly neighbourhood-oriented with trips concentrated around groceries, pharmacies and healthcare."
+    },
+    {
+      "name": "unemployed adults",
+      "fraction": 0.02,
+      "min_age": 18,
+      "max_age": 64,
+      "role": "other",
+      "description": "No regular workplace commute; flexible daytime mobility for errands, shopping and services."
+    },
+    {
+      "name": "non-working adults",
+      "fraction": 0.04,
+      "min_age": 18,
+      "max_age": 64,
+      "role": "other",
+      "description": "Adults outside regular employment or study with flexible daytime activity."
+    }
+  ]
+}
