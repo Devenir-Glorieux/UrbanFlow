@@ -28,6 +28,10 @@ migrations run automatically on API startup.
    agents as eligible residential buildings; the UI shows the minimum.
 3. **Experiments:** run the baseline, then an LLM experiment with matching settings.
 4. **Replay:** select a day/hour and display segment traffic, heatmap or trajectories.
+   **Show sweaty spots** independently displays selectable spatial-intensity points.
+   Turn off **Show spatial intensity** to inspect them without the heatmap. Click a
+   point for its own flow [people/hour], time, coordinates and run, as in World explorer.
+   Each point represents weighted segment entries in a 50 m cell, not unique people.
 5. **Validation:** enter pedestrian counts or import CSV, then compare both methods.
 
 For a synthetic example without an LLM or OSM download:
