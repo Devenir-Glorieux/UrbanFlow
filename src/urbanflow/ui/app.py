@@ -408,6 +408,7 @@ elif page == "Replay":
     initial_hour = st.slider("Hour", 0, 23, 8)
     playing = st.toggle("Play hourly timeline")
     heatmap = st.toggle("Show spatial intensity", value=False)
+    show_spots = st.toggle("Show sweaty spots", value=False)
     show_agents = st.toggle("Show agent trajectories", value=False)
     if st.button("Re-execute saved plans (no LLM calls)"):
         with st.spinner("Replaying stored plans…"):
@@ -451,6 +452,35 @@ elif page == "Replay":
         if show_agents:
             trajectories = api(f"/runs/{run['id']}/trajectories?day={day}&hour={hour}")
             layers.append(geo_layer("agents", trajectories["features"], [60, 90, 240, 230]))
+        if show_spots:
+            spots = []
+            for cell in data["heatmap"]:
+                lon, lat = cell["position"]
+                identifier = f"cell:{lon:.8f}:{lat:.8f}"
+                spots.append(
+                    {
+                        "type": "Feature",
+                        "id": identifier,
+                        "geometry": {"type": "Point", "coordinates": [lon, lat]},
+                        "properties": {
+                            "id": identifier,
+                            "Pedestrian flow [people/hour]": cell["weighted_count"],
+                            "hour": data["hour"],
+                            "timezone": run["config"]["timezone"],
+                            "cell_size_m": 50,
+                            "run_id": run["id"],
+                        },
+                    }
+                )
+            spots_layer = geo_layer(
+                "sweaty-spots", spots, [240, 145, 30, 240], point_radius_units='"pixels"'
+            )
+            spots_layer.get_point_radius = 6
+            layers.append(spots_layer)
+            st.caption(
+                "Click a spot to inspect its attributes. Each point represents a 50 m cell; "
+                "flow sums weighted segment entries in that cell, not unique people."
+            )
         draw(layers, world["bbox"], "replay-map")
         if playing:
             st.session_state.timeline_hour = (hour + 1) % 24
